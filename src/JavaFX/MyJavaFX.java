@@ -1,46 +1,36 @@
 package JavaFX;
 
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-
-import java.io.IOException;
-import java.util.Random;
 import javafx.application.Application;
-import javafx.geometry.Pos;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 
 public class MyJavaFX extends Application {
-	
-	
-	private static Stage stg;
-	@Override
-	public void start(Stage primaryStage) throws Exception{
-		stg = primaryStage;
-		primaryStage.setResizable(false);
-		Parent root = FXMLLoader.load(getClass().getResource("SceneBuilder.fxml"));
-		primaryStage.setTitle("Hello World!");
-		primaryStage.setScene(new Scene(root,600,400));
-		primaryStage.show();
-	}
-	
-	public void changeScene(String fxml) throws IOException{
-		Parent pane = FXMLLoader.load(getClass().getResource(fxml));
-		stg.getScene().setRoot(pane);
-	}
-	
-	
-	public static void main(String[] args) {
-		launch(args);
-	}
+    
+    // Static stage
+    private static Stage stg;
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        stg = primaryStage; // Assign the primary stage to your static stage variable
+        primaryStage.setResizable(false); // Optional: Make the window not resizable
+        Parent root = FXMLLoader.load(getClass().getResource("LogIn.fxml")); // Load the initial FXML
+        primaryStage.setTitle("To-Do List Application"); // Set the window title
+        primaryStage.setScene(new Scene(root, 600, 400)); // Set the initial scene
+        primaryStage.show(); // Show the stage
+    }
+    
+    // Static method to change scenes
+    public static void changeScene(String fxml) throws IOException {
+        Parent pane = FXMLLoader.load(MyJavaFX.class.getResource(fxml)); // Load the FXML for the new scene
+        stg.getScene().setRoot(pane); // Set the root of the scene to the newly loaded pane
+    }
 
+    // Main method to launch the application
+    public static void main(String[] args) {
+        launch(args); // Launch the JavaFX application
+    }
 }

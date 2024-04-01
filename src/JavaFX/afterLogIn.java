@@ -11,7 +11,7 @@ private Button logout;
 
 public void userLogOut(ActionEvent event) throws IOException{
 	MyJavaFX m = new MyJavaFX();
-	m.changeScene("SceneBuilder.fxml");
+	m.changeScene("LogIn.fxml");
 }
 	
 }

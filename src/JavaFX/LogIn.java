@@ -35,7 +35,7 @@ public class LogIn {
 		MyJavaFX m = new MyJavaFX();
 		if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin")) {
 			wrongLogIn.setText("Success!");
-			m.changeScene("afterLogIn.fxml");
+			m.changeScene("MainScreen.fxml");
 		} else if (username.getText().isEmpty() && password.getText().isEmpty()) {
 			wrongLogIn.setText("Please enter your data.");
 		} else {
