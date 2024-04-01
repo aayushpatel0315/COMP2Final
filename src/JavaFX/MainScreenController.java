@@ -14,10 +14,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Scanner;
+
 import javafx.scene.Node;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.PrintWriter;
+import java.time.LocalDate;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -144,6 +148,44 @@ public class MainScreenController {
         }
     }
 
+    @FXML
+    private void importTasks() {
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showOpenDialog(null); // Consider using a specific window here
+
+        if (file != null) {
+            readTasksFromFile(file);
+        }
+    }
+
+    private void readTasksFromFile(File file) {
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String titleLine = scanner.nextLine();
+                String descriptionLine = scanner.hasNextLine() ? scanner.nextLine() : "";
+                String dueDateLine = scanner.hasNextLine() ? scanner.nextLine() : "";
+                String completedLine = scanner.hasNextLine() ? scanner.nextLine() : "";
+                scanner.nextLine(); // Skip the empty line between tasks
+                
+                String title = titleLine.replace("Title: ", "");
+                String description = descriptionLine.replace("Description: ", "");
+                LocalDate dueDate = LocalDate.parse(dueDateLine.replace("Due Date: ", ""));
+                boolean isCompleted = "Completed: Yes".equals(completedLine);
+
+                Task task = new Task(title, description, dueDate);
+                task.setCompleted(isCompleted);
+                tasks.add(task);
+            }
+        } catch (Exception e) {
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Import Failed");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("An error occurred while importing tasks: " + e.getMessage());
+            errorAlert.showAndWait();
+        }
+    }
 
     @FXML
     private void logout() {
