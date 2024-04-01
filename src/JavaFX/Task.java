@@ -1,18 +1,18 @@
 package JavaFX;
-
 import java.time.LocalDate;
 
 public class Task {
     private String title;
     private String description;
     private LocalDate dueDate;
-    private boolean isCompleted;
+    private boolean completed;
 
+    // Constructor
     public Task(String title, String description, LocalDate dueDate) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
-        this.isCompleted = false;
+        this.completed = false; // Default value
     }
 
     // Getters and setters
@@ -41,17 +41,16 @@ public class Task {
     }
 
     public boolean isCompleted() {
-        return isCompleted;
+        return completed;
     }
 
     public void setCompleted(boolean completed) {
-        isCompleted = completed;
+        this.completed = completed;
     }
 
+    // toString method
     @Override
     public String toString() {
-        // This method dictates how the task is displayed in the ListView.
-        // Adjust this string to display the information as you prefer.
-        return title + ": Due " + dueDate + (isCompleted ? " (Completed)" : "");
+        return title + " (Due: " + dueDate + ")" + (completed ? " [Completed]" : "");
     }
 }
