@@ -78,14 +78,13 @@ public class ToDoListApp extends Application {
 		amPmComboBox.setValue("AM");
 
 		Button addButton = new Button("Add");
-	    addButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
+		addButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
 		addButton.setOnAction(e -> addTask());
 
 		Button deleteButton = new Button("Delete");
-	    deleteButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
+		deleteButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
 		deleteButton.setOnAction(e -> deleteTask());
 
-		
 		taskInputHBox.getChildren().addAll(taskField, datePicker, hourComboBox, minuteComboBox, amPmComboBox, addButton,
 				deleteButton);
 		centerVBox.getChildren().addAll(taskInputHBox);
@@ -94,23 +93,20 @@ public class ToDoListApp extends Application {
 		centerVBox.getChildren().add(toDoListView);
 
 		Button logoutButton = new Button("Logout");
-	    logoutButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
+		logoutButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
 		logoutButton.setOnAction(e -> logout());
 
 		Button exportButton = new Button("Export");
-	    exportButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
+		exportButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
 		exportButton.setOnAction(e -> exportTasks()); // Set the action to the exportTasks method
 
+		Button changeThemeButton = new Button("Change Theme");
+		changeThemeButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
+		changeThemeButton.setOnAction(e -> changeTheme());
 
-
-	    Button changeThemeButton = new Button("Change Theme");
-	    changeThemeButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
-	    changeThemeButton.setOnAction(e -> changeTheme());
-
-	    HBox bottomLeftHBox = new HBox(10);
-	    bottomLeftHBox.setPadding(new Insets(10));
-	    bottomLeftHBox.getChildren().addAll(logoutButton, exportButton, changeThemeButton);
-
+		HBox bottomLeftHBox = new HBox(10);
+		bottomLeftHBox.setPadding(new Insets(10));
+		bottomLeftHBox.getChildren().addAll(logoutButton, exportButton, changeThemeButton);
 
 		// Remove or comment out the below duplicate lines
 		// HBox bottomLeftHBox = new HBox(10);
@@ -120,7 +116,6 @@ public class ToDoListApp extends Application {
 		rootLayout.setBottom(bottomLeftHBox);
 		rootLayout.setCenter(centerVBox);
 
-		
 		rootLayout.setBottom(bottomLeftHBox);
 		rootLayout.setCenter(centerVBox);
 
@@ -140,57 +135,55 @@ public class ToDoListApp extends Application {
 			}
 		});
 	}
+
 	private boolean isDarkTheme = false;
 
 	private void changeTheme() {
-	    if (!isDarkTheme) {
-	        // Change to dark theme
-	        rootLayout.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
-	        isDarkTheme = true;
-	    } else {
-	        // Change back to default theme
-	        // Assuming the default is white or the default JavaFX background
-	        rootLayout.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
-	        // If you want to reset to the very default background (JavaFX default), use:
-	        // rootLayout.setBackground(Background.EMPTY);
-	        isDarkTheme = false;
-	    }
+		if (!isDarkTheme) {
+			// Change to dark theme
+			rootLayout.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+			isDarkTheme = true;
+		} else {
+			// Change back to default theme
+			// Assuming the default is white or the default JavaFX background
+			rootLayout.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+			// If you want to reset to the very default background (JavaFX default), use:
+			// rootLayout.setBackground(Background.EMPTY);
+			isDarkTheme = false;
+		}
 	}
 
-
-	
 	private void exportTasks() {
-	    FileChooser fileChooser = new FileChooser();
-	    fileChooser.setTitle("Save Export File");
-	    fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
-	    fileChooser.setInitialFileName(username + "_tasks_export.txt");
-	    fileChooser.getExtensionFilters().addAll(
-	        new FileChooser.ExtensionFilter("Text Files", "*.txt"),
-	        new FileChooser.ExtensionFilter("All Files", "*.*"));
-	    
-	    File exportFile = fileChooser.showSaveDialog(primaryStage);
-	    
-	    if (exportFile != null) {
-	        try (PrintWriter writer = new PrintWriter(new FileWriter(exportFile))) {
-	            for (Task task : tasks) {
-	                String formattedDate = task.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-	                String formattedTime = task.getTime().format(DateTimeFormatter.ofPattern("HH:mm"));
-	                writer.println(task.getDescription() + "," + formattedDate + "," + formattedTime);
-	            }
-	            showAlert("Tasks Exported Successfully", "Your tasks have been successfully exported to " + exportFile.getPath());
-	        } catch (IOException e) {
-	            showAlert("Export Failed", "Failed to export tasks. Error: " + e.getMessage());
-	        }
-	    }
-	}
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Save Export File");
+		fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+		fileChooser.setInitialFileName(username + "_tasks_export.txt");
+		fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Text Files", "*.txt"),
+				new FileChooser.ExtensionFilter("All Files", "*.*"));
 
+		File exportFile = fileChooser.showSaveDialog(primaryStage);
+
+		if (exportFile != null) {
+			try (PrintWriter writer = new PrintWriter(new FileWriter(exportFile))) {
+				for (Task task : tasks) {
+					String formattedDate = task.getDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+					String formattedTime = task.getTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+					writer.println(task.getDescription() + "," + formattedDate + "," + formattedTime);
+				}
+				showAlert("Tasks Exported Successfully",
+						"Your tasks have been successfully exported to " + exportFile.getPath());
+			} catch (IOException e) {
+				showAlert("Export Failed", "Failed to export tasks. Error: " + e.getMessage());
+			}
+		}
+	}
 
 	private void showAlert(String title, String message) {
-	    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-	    alert.setTitle(title);
-	    alert.setHeaderText(null);
-	    alert.setContentText(message);
-	    alert.showAndWait();
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
 	}
 
 	private void addTask() {

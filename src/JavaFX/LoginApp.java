@@ -1,8 +1,5 @@
 package JavaFX;
 
-
-
-
 import javafx.application.Application;
 
 import javafx.geometry.Insets;
@@ -25,202 +22,139 @@ import javafx.scene.layout.VBox;
 
 import javafx.stage.Stage;
 
-
-
-
 import java.util.HashMap;
 
 import java.util.Map;
 
-
-
-
 public class LoginApp extends Application {
 
+	private Stage primaryStage;
 
+	private TextField usernameField;
 
+	private PasswordField passwordField;
 
-   private Stage primaryStage;
+	private Map<String, String> credentials;
 
-   private TextField usernameField;
+	@Override
 
-   private PasswordField passwordField;
+	public void start(Stage primaryStage) {
 
+		this.primaryStage = primaryStage;
 
+		primaryStage.setTitle("Login");
 
+		credentials = new HashMap<>();
 
-   private Map<String, String> credentials;
+		credentials.put("admin", "admin");
 
+		credentials.put("user", "password");
 
+		BorderPane loginLayout = new BorderPane();
 
+		loginLayout.setStyle("-fx-background-color: black; -fx-text-fill: #bfa575;");
 
-   @Override
+		loginLayout.setPadding(new Insets(20));
 
-   public void start(Stage primaryStage) {
+		HBox centerHBox = new HBox(10);
 
-       this.primaryStage = primaryStage;
+		centerHBox.setPadding(new Insets(20));
 
-       primaryStage.setTitle("Login");
+		centerHBox.setAlignment(Pos.CENTER);
 
+		// Load the image
 
+		Image image = new Image("/JavaFX/Doner.png");
 
+		ImageView imageView = new ImageView(image);
 
-       credentials = new HashMap<>();
+		imageView.setFitWidth(500);
 
-       credentials.put("admin", "admin");
+		imageView.setFitHeight(500);
 
-       credentials.put("user", "password");
+		VBox loginVBox = new VBox(10);
 
+		loginVBox.setAlignment(Pos.CENTER_LEFT);
 
+		Label titleLabel = new Label("Login");
 
+		titleLabel.setStyle(
+				"-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #bfa575; -fx-font-family: Monradok;");
 
-       BorderPane loginLayout = new BorderPane();
+		usernameField = new TextField();
 
-       loginLayout.setStyle("-fx-background-color: black; -fx-text-fill: #bfa575;");
+		usernameField.setPromptText("Username");
 
-       loginLayout.setPadding(new Insets(20));
+		passwordField = new PasswordField();
 
+		passwordField.setPromptText("Password");
 
+		Button loginButton = new Button("Login");
 
+		loginButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
 
-       HBox centerHBox = new HBox(10);
+		loginButton.setOnAction(e -> login());
 
-       centerHBox.setPadding(new Insets(20));
+		loginVBox.getChildren().addAll(titleLabel, usernameField, passwordField, loginButton);
 
-       centerHBox.setAlignment(Pos.CENTER);
+		centerHBox.getChildren().addAll(imageView, loginVBox);
 
+		loginLayout.setCenter(centerHBox);
 
+		Scene scene = new Scene(loginLayout);
 
+		primaryStage.setScene(scene);
 
-       // Load the image
+		primaryStage.show();
 
-       Image image = new Image("/JavaFX/Doner.png");
+	}
 
-       ImageView imageView = new ImageView(image);
+	private void login() {
 
-       imageView.setFitWidth(500);
+		String username = usernameField.getText();
 
-       imageView.setFitHeight(500);
+		String password = passwordField.getText();
 
+		if (credentials.containsKey(username) && credentials.get(username).equals(password)) {
 
+			showToDoList(username);
 
+		} else {
 
-       VBox loginVBox = new VBox(10);
+			showAlert("Invalid username or password!");
 
-       loginVBox.setAlignment(Pos.CENTER_LEFT);
+		}
 
+	}
 
+	private void showToDoList(String username) {
 
+		ToDoListApp toDoListApp = new ToDoListApp(username);
 
-       Label titleLabel = new Label("Login");
+		toDoListApp.start(new Stage());
 
-       titleLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #bfa575; -fx-font-family: Monradok;");
+		primaryStage.close();
 
+	}
 
+	private void showAlert(String message) {
 
+		Alert alert = new Alert(Alert.AlertType.ERROR);
 
-       usernameField = new TextField();
+		alert.setTitle("Error");
 
-       usernameField.setPromptText("Username");
+		alert.setHeaderText(null);
 
+		alert.setContentText(message);
 
+		alert.showAndWait();
 
+	}
 
-       passwordField = new PasswordField();
+	public static void main(String[] args) {
 
-       passwordField.setPromptText("Password");
+		launch(args);
 
-
-
-
-       Button loginButton = new Button("Login");
-
-       loginButton.setStyle("-fx-background-color: #bfa575; -fx-text-fill: black;");
-
-       loginButton.setOnAction(e -> login());
-
-
-
-
-       loginVBox.getChildren().addAll(titleLabel, usernameField, passwordField, loginButton);
-
-       centerHBox.getChildren().addAll(imageView, loginVBox);
-
-       loginLayout.setCenter(centerHBox);
-
-
-
-
-       Scene scene = new Scene(loginLayout);
-
-       primaryStage.setScene(scene);
-
-       primaryStage.show();
-
-   }
-
-
-
-
-   private void login() {
-
-       String username = usernameField.getText();
-
-       String password = passwordField.getText();
-
-
-
-
-       if (credentials.containsKey(username) && credentials.get(username).equals(password)) {
-
-           showToDoList(username);
-
-       } else {
-
-           showAlert("Invalid username or password!");
-
-       }
-
-   }
-
-
-
-
-   private void showToDoList(String username) {
-
-       ToDoListApp toDoListApp = new ToDoListApp(username);
-
-       toDoListApp.start(new Stage());
-
-       primaryStage.close();
-
-   }
-
-
-
-
-   private void showAlert(String message) {
-
-       Alert alert = new Alert(Alert.AlertType.ERROR);
-
-       alert.setTitle("Error");
-
-       alert.setHeaderText(null);
-
-       alert.setContentText(message);
-
-       alert.showAndWait();
-
-   }
-
-
-
-
-   public static void main(String[] args) {
-
-       launch(args);
-
-   }
+	}
 
 }
-
