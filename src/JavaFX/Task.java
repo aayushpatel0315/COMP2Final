@@ -1,56 +1,66 @@
 package JavaFX;
+
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Task {
-    private String title;
-    private String description;
-    private LocalDate dueDate;
-    private boolean completed;
+	private String description;
+	private LocalDate date;
+	private LocalTime time; // New field for time
 
-    // Constructor
-    public Task(String title, String description, LocalDate dueDate) {
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        this.completed = false; // Default value
-    }
+	public Task(String description, LocalDate date, LocalTime time) {
+		this.description = description;
+		this.date = date;
+		this.time = time;
+	}
 
-    // Getters and setters
-    public String getTitle() {
-        return title;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public LocalDate getDate() {
+		return date;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 
-    public LocalDate getDueDate() {
-        return dueDate;
-    }
+	public LocalTime getTime() {
+		return time;
+	}
 
-    public void setDueDate(LocalDate dueDate) {
-        this.dueDate = dueDate;
-    }
+	public void setTime(LocalTime time) {
+		this.time = time;
+	}
 
-    public boolean isCompleted() {
-        return completed;
-    }
+	@Override
+	public String toString() {
+		// Convert time to 12-hour format
+		int hour = time.getHour();
+		String amPm;
+		if (hour >= 12) {
+			amPm = "PM";
+			if (hour > 12) {
+				hour -= 12;
+			}
+		} else {
+			amPm = "AM";
+			if (hour == 0) {
+				hour = 12;
+			}
+		}
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
+		// Format the time in 12-hour format
+		String formattedTime = String.format("%02d:%02d %s", hour, time.getMinute(), amPm);
 
-    // toString method
-    @Override
-    public String toString() {
-        return title + " (Due: " + dueDate + ")" + (completed ? " [Completed]" : "");
-    }
+		// Return the string representation including description, date, and formatted
+		// time
+		return description + " - " + date.toString() + " " + formattedTime;
+	}
+
 }
